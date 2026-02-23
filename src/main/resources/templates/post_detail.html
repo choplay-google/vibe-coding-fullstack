@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Vibe Coding | Post List</title>
+    <title th:text="'Vibe Coding | ' + ${post.title}">Vibe Coding | Post Detail</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet" />
     <link
@@ -43,11 +43,11 @@
     .nav-link {
       @apply text-[13px] font-bold tracking-tight text-black hover:text-[#034ea2] transition-colors;
     }
-    .search-input {
-      @apply bg-[#f4f4f4] border-none rounded-full px-4 py-1.5 text-xs w-64 focus:ring-1 focus:ring-black focus:bg-white transition-all;
-    }
     .samsung-btn-primary {
       @apply bg-black text-white rounded-full px-6 py-2.5 text-sm font-bold hover:bg-[#333] transition-all;
+    }
+    .samsung-btn-outline {
+      @apply border border-black text-black rounded-full px-6 py-2.5 text-sm font-bold hover:bg-black hover:text-white transition-all;
     }
   </style>
 </head>
@@ -72,10 +72,6 @@
                 </nav>
             </div>
             <div class="flex items-center gap-6">
-                <div class="hidden lg:flex items-center relative">
-                    <input class="search-input" placeholder="Search posts" type="text" />
-                    <span class="material-symbols-outlined absolute right-3 text-lg text-gray-400">search</span>
-                </div>
                 <div class="flex items-center gap-4">
                     <button class="material-symbols-outlined text-2xl hover:text-[#034ea2]">person</button>
                 </div>
@@ -84,59 +80,51 @@
     </header>
 
     <main class="min-h-[70vh] py-16 px-6 lg:px-12">
-        <div class="max-w-[1440px] mx-auto">
-            <div class="mb-12">
-                <h1 class="text-4xl font-bold tracking-tight mb-4">Post List</h1>
-                <p class="text-gray-500">Explore the latest thoughts and vibes from our community.</p>
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-10 flex items-center justify-between">
+                <a href="/posts" class="flex items-center gap-2 text-gray-500 hover:text-black transition-colors">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    <span class="text-sm font-bold">Back to List</span>
+                </a>
+                <div class="flex items-center gap-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">tag</span>
+                        <span th:text="${post.no}">1</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">visibility</span>
+                        <span th:text="${post.views}">123</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="overflow-hidden bg-white border border-gray-100 rounded-2xl shadow-sm">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-gray-50">
-                            <th
-                                class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100 w-20">
-                                NO</th>
-                            <th
-                                class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100">
-                                TITLE</th>
-                            <th
-                                class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100 w-48">
-                                DATE</th>
-                            <th
-                                class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100 w-24">
-                                VIEWS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="post : ${posts}"
-                            class="hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-none">
-                            <td class="px-6 py-5 text-sm font-medium text-gray-500" th:text="${post.no}">1</td>
-                            <td class="px-6 py-5 text-sm font-bold text-black group cursor-pointer">
-                                <a th:href="@{/posts/{no}(no=${post.no})}"
-                                    class="group-hover:text-accent transition-colors" th:text="${post.title}">Sample
-                                    Title</a>
-                            </td>
-                            <td class="px-6 py-5 text-sm text-gray-500"
-                                th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">2024-02-23</td>
-                            <td class="px-6 py-5 text-sm text-gray-500">
-                                <div class="flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-sm">visibility</span>
-                                    <span th:text="${post.views}">123</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr th:if="${#lists.isEmpty(posts)}">
-                            <td colspan="4" class="px-6 py-20 text-center text-gray-400 italic">
-                                No posts found. Start sharing your vibe!
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <article class="bg-white border border-gray-100 rounded-[40px] p-8 md:p-16 shadow-2xl shadow-blue-500/5">
+                <header class="mb-12 border-b border-gray-50 pb-10">
+                    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight"
+                        th:text="${post.title}">Post Title</h1>
+                    <div class="flex flex-wrap gap-6 items-center text-sm text-gray-500">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-lg">calendar_today</span>
+                            <span>Created: <span
+                                    th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">2024-02-23</span></span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-lg">edit</span>
+                            <span>Updated: <span
+                                    th:text="${#temporals.format(post.updatedAt, 'yyyy-MM-dd HH:mm')}">2024-02-23</span></span>
+                        </div>
+                    </div>
+                </header>
 
-            <div class="mt-10 flex justify-center">
-                <a href="/posts/new" class="samsung-btn-primary">새 글</a>
+                <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed whitespace-pre-wrap"
+                    th:text="${post.content}">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua.
+                </div>
+            </article>
+
+            <div class="mt-16 text-center">
+                <a href="/posts" class="samsung-btn-outline inline-block">Explore More Vibes</a>
             </div>
         </div>
     </main>

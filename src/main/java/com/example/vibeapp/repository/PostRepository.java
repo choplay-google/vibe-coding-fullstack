@@ -25,6 +25,15 @@ public class PostRepository {
     }
 
     public List<Post> findAll() {
-        return new ArrayList<>(posts);
+        List<Post> reversed = new ArrayList<>(posts);
+        java.util.Collections.reverse(reversed);
+        return reversed;
+    }
+
+    public Post findByNo(Long no) {
+        return posts.stream()
+                .filter(post -> post.getNo().equals(no))
+                .findFirst()
+                .orElse(null);
     }
 }

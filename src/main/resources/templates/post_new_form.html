@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Vibe Coding | New Post</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent": "#135bec",
+                        "samsung-gray": "#f7f7f7",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        :root {
+      --samsung-blue: #034ea2;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .hero-glass {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .nav-link {
+      @apply text-[13px] font-bold tracking-tight text-black hover:text-[#034ea2] transition-colors;
+    }
+    .samsung-btn-primary {
+      @apply bg-black text-white rounded-full px-8 py-3 text-sm font-bold hover:bg-[#333] transition-all;
+    }
+    .samsung-btn-outline {
+      @apply border border-black text-black rounded-full px-8 py-3 text-sm font-bold hover:bg-black hover:text-white transition-all;
+    }
+    .form-input {
+        @apply w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-4 focus:ring-2 focus:ring-accent/20 focus:border-accent focus:bg-white outline-none transition-all;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-black overflow-x-hidden">
+    <div class="bg-white border-b border-gray-100 px-6 lg:px-12 py-2 flex justify-end gap-6">
+        <a class="text-[11px] text-gray-500 hover:underline" href="#">Business</a>
+        <a class="text-[11px] text-gray-500 hover:underline" href="#">Support</a>
+        <a class="text-[11px] text-gray-500 hover:underline" href="#">Community</a>
+    </div>
+    <header class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md px-6 lg:px-12 py-4 border-b border-gray-100">
+        <div class="max-w-[1440px] mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-10">
+                <a href="/" class="flex items-center gap-1 cursor-pointer">
+                    <span class="text-xl font-black tracking-tighter uppercase">Vibe Coding</span>
+                </a>
+                <nav class="hidden xl:flex items-center gap-6">
+                    <a class="nav-link" href="#">IDE Tools</a>
+                    <a class="nav-link" href="#">AI Engine</a>
+                    <a class="nav-link underline decoration-2 underline-offset-8" href="/posts">Community Posts</a>
+                    <a class="nav-link" href="#">Extensions</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="min-h-[70vh] py-16 px-6 lg:px-12">
+        <div class="max-w-2xl mx-auto">
+            <div class="mb-12">
+                <h1 class="text-4xl font-bold tracking-tight mb-4">Create Your Vibe</h1>
+                <p class="text-gray-500">Share your thoughts, experiences, and code with the community.</p>
+            </div>
+
+            <div class="bg-white border border-gray-100 rounded-[40px] p-8 md:p-12 shadow-2xl shadow-blue-500/5">
+                <form onsubmit="alert('새 게시글 등록'); return false;" class="space-y-8">
+                    <div>
+                        <label for="title"
+                            class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 ml-1">Title</label>
+                        <input type="text" id="title" name="title" required placeholder="Enter a catchy title"
+                            class="form-input" />
+                    </div>
+
+                    <div>
+                        <label for="content"
+                            class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 ml-1">Content</label>
+                        <textarea id="content" name="content" required rows="8" placeholder="What's on your mind?"
+                            class="form-input resize-none"></textarea>
+                    </div>
+
+                    <div class="flex items-center justify-center gap-4 pt-4">
+                        <button type="submit" class="samsung-btn-primary flex-1">등록</button>
+                        <a href="/posts" class="samsung-btn-outline flex-1 text-center">취소</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-100 py-16 px-6 lg:px-12 mt-20">
+        <div class="max-w-[1440px] mx-auto text-center">
+            <div
+                class="flex flex-wrap justify-center gap-6 text-[11px] font-bold text-gray-500 uppercase tracking-widest">
+                <span>© 2024 Vibe Coding Inc. All rights reserved.</span>
+                <a class="hover:underline" href="#">Privacy Policy</a>
+                <a class="hover:underline" href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

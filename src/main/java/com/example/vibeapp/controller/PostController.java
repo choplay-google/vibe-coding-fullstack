@@ -1,9 +1,11 @@
 package com.example.vibeapp.controller;
 
+import com.example.vibeapp.entity.Post;
 import com.example.vibeapp.service.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class PostController {
@@ -17,5 +19,17 @@ public class PostController {
     public String listPosts(Model model) {
         model.addAttribute("posts", postService.getAllPosts());
         return "posts";
+    }
+
+    @GetMapping("/posts/{no}")
+    public String viewPost(@PathVariable("no") Long no, Model model) {
+        Post post = postService.getPostByNo(no);
+        model.addAttribute("post", post);
+        return "post_detail";
+    }
+
+    @GetMapping("/posts/new")
+    public String newPostForm() {
+        return "post_new_form";
     }
 }
