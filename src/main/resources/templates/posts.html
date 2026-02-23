@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Vibe Coding | Post List</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent": "#135bec",
+                        "samsung-gray": "#f7f7f7",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        :root {
+      --samsung-blue: #034ea2;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .hero-glass {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .nav-link {
+      @apply text-[13px] font-bold tracking-tight text-black hover:text-[#034ea2] transition-colors;
+    }
+    .search-input {
+      @apply bg-[#f4f4f4] border-none rounded-full px-4 py-1.5 text-xs w-64 focus:ring-1 focus:ring-black focus:bg-white transition-all;
+    }
+    .samsung-btn-primary {
+      @apply bg-black text-white rounded-full px-6 py-2.5 text-sm font-bold hover:bg-[#333] transition-all;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-black overflow-x-hidden">
+    <div class="bg-white border-b border-gray-100 px-6 lg:px-12 py-2 flex justify-end gap-6">
+        <a class="text-[11px] text-gray-500 hover:underline" href="#">Business</a>
+        <a class="text-[11px] text-gray-500 hover:underline" href="#">Support</a>
+        <a class="text-[11px] text-gray-500 hover:underline" href="#">Community</a>
+    </div>
+    <header class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md px-6 lg:px-12 py-4 border-b border-gray-100">
+        <div class="max-w-[1440px] mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-10">
+                <a href="/" class="flex items-center gap-1 cursor-pointer">
+                    <span class="text-xl font-black tracking-tighter uppercase">Vibe Coding</span>
+                </a>
+                <nav class="hidden xl:flex items-center gap-6">
+                    <a class="nav-link" href="#">IDE Tools</a>
+                    <a class="nav-link" href="#">AI Engine</a>
+                    <a class="nav-link underline decoration-2 underline-offset-8" href="/posts">Community Posts</a>
+                    <a class="nav-link" href="#">Extensions</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden lg:flex items-center relative">
+                    <input class="search-input" placeholder="Search posts" type="text" />
+                    <span class="material-symbols-outlined absolute right-3 text-lg text-gray-400">search</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="material-symbols-outlined text-2xl hover:text-[#034ea2]">person</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="min-h-[70vh] py-16 px-6 lg:px-12">
+        <div class="max-w-[1440px] mx-auto">
+            <div class="mb-12">
+                <h1 class="text-4xl font-bold tracking-tight mb-4">Post List</h1>
+                <p class="text-gray-500">Explore the latest thoughts and vibes from our community.</p>
+            </div>
+
+            <div class="overflow-hidden bg-white border border-gray-100 rounded-2xl shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100 w-20">
+                                NO</th>
+                            <th
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100">
+                                TITLE</th>
+                            <th
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100 w-48">
+                                DATE</th>
+                            <th
+                                class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100 w-24">
+                                VIEWS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="post : ${posts}"
+                            class="hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-none">
+                            <td class="px-6 py-5 text-sm font-medium text-gray-500" th:text="${post.no}">1</td>
+                            <td class="px-6 py-5 text-sm font-bold text-black group cursor-pointer">
+                                <span class="group-hover:text-accent transition-colors" th:text="${post.title}">Sample
+                                    Title</span>
+                            </td>
+                            <td class="px-6 py-5 text-sm text-gray-500"
+                                th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">2024-02-23</td>
+                            <td class="px-6 py-5 text-sm text-gray-500">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">visibility</span>
+                                    <span th:text="${post.views}">123</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(posts)}">
+                            <td colspan="4" class="px-6 py-20 text-center text-gray-400 italic">
+                                No posts found. Start sharing your vibe!
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-10 flex justify-center">
+                <button class="samsung-btn-primary">Write a Post</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-100 py-16 px-6 lg:px-12 mt-20">
+        <div class="max-w-[1440px] mx-auto">
+            <div
+                class="border-t border-gray-100 pt-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                <div class="flex flex-wrap gap-6 text-[11px] font-bold text-gray-500 uppercase tracking-widest">
+                    <span>© 2024 Vibe Coding Inc. All rights reserved.</span>
+                    <a class="hover:underline" href="#">Privacy Policy</a>
+                    <a class="hover:underline" href="#">Terms of Service</a>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-[11px] font-bold text-gray-400">United States / English</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
