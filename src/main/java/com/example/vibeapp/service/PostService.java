@@ -25,4 +25,11 @@ public class PostService {
         }
         return post;
     }
+
+    public void createPost(Post post) {
+        post.setCreatedAt(java.time.LocalDateTime.now());
+        post.setUpdatedAt(null);
+        post.setViews(0);
+        postRepository.save(post);
+    }
 }

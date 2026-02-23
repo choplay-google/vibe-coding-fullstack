@@ -10,11 +10,12 @@ import java.util.List;
 @Repository
 public class PostRepository {
     private final List<Post> posts = new ArrayList<>();
+    private long nextNo = 1;
 
     public PostRepository() {
         for (long i = 1; i <= 10; i++) {
-            posts.add(new Post(
-                i,
+            save(new Post(
+                null,
                 "Sample Post Title " + i,
                 "This is the content of sample post number " + i + ". It contains some vibe and energy.",
                 LocalDateTime.now().minusDays(10 - i),
@@ -22,6 +23,14 @@ public class PostRepository {
                 (int) (Math.random() * 1000)
             ));
         }
+    }
+
+    public Post save(Post post) {
+        if (post.getNo() == null) {
+            post.setNo(nextNo++);
+        }
+        posts.add(post);
+        return post;
     }
 
     public List<Post> findAll() {
