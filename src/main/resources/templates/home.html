@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Vibe Coding | Professional IDE</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "accent": "#135bec",
+                        "samsung-gray": "#f7f7f7",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        :root {
+      --samsung-blue: #034ea2;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .hero-glass {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .nav-link {
+      @apply text-[13px] font-bold tracking-tight text-black hover:text-[#034ea2] transition-colors;
+    }
+    .search-input {
+      @apply bg-[#f4f4f4] border-none rounded-full px-4 py-1.5 text-xs w-64 focus:ring-1 focus:ring-black focus:bg-white transition-all;
+    }
+    .samsung-btn-primary {
+      @apply bg-black text-white rounded-full px-6 py-2.5 text-sm font-bold hover:bg-[#333] transition-all;
+    }
+    .samsung-btn-outline {
+      @apply border border-black text-black rounded-full px-6 py-2.5 text-sm font-bold hover:bg-black hover:text-white transition-all;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-black overflow-x-hidden">
+    <div class="bg-white border-b border-gray-100 px-6 lg:px-12 py-2 flex justify-end gap-6">
+        <a class="text-[11px] text-gray-500 hover:underline" href="#">Business</a>
+        <a class="text-[11px] text-gray-500 hover:underline" href="#">Support</a>
+        <a class="text-[11px] text-gray-500 hover:underline" href="#">Community</a>
+    </div>
+    <header class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md px-6 lg:px-12 py-4">
+        <div class="max-w-[1440px] mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-10">
+                <div class="flex items-center gap-1 cursor-pointer">
+                    <span class="text-xl font-black tracking-tighter uppercase">Vibe Coding</span>
+                </div>
+                <nav class="hidden xl:flex items-center gap-6">
+                    <a class="nav-link" href="#">IDE Tools</a>
+                    <a class="nav-link" href="#">AI Engine</a>
+                    <a class="nav-link" href="#">Themes</a>
+                    <a class="nav-link" href="#">Extensions</a>
+                    <a class="nav-link" href="#">Compare</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden lg:flex items-center relative">
+                    <input class="search-input" placeholder="Search product or feature" type="text" />
+                    <span class="material-symbols-outlined absolute right-3 text-lg text-gray-400">search</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="material-symbols-outlined text-2xl hover:text-[#034ea2]">shopping_cart</button>
+                    <button class="material-symbols-outlined text-2xl hover:text-[#034ea2]">person</button>
+                    <button class="lg:hidden material-symbols-outlined text-2xl">menu</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="relative bg-white min-h-[85vh] flex items-center overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-7xl">
+                    <div class="w-full h-full bg-center bg-no-repeat bg-cover opacity-80"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDZ_5SlV8vfN-T83XRAneJYPXOg-7Hc6I4kK42GUluhVB1hx0Brji7rVLB8-bbtGCzGR7_DYOz6Peg7I7oLo_m2ERMx4y2dmNYEfVKQcKmudQjYeJeMIuhpYKfqXEt39MGj3-2dcnCzcbuw5Eu9snIuvr23l2QWFHud0a4O1G5DFrnsmipIwhvSWwWMzZ7HD16W_uWCc92nSyGfU9hg7iL9eqJonWQALDI6hYQxuf1gFRs-IieZKLakSIOXQ_x3sOO3bC72c1UBq4A');">
+                        <div
+                            class="w-full h-full bg-gradient-to-tr from-white/20 via-blue-500/10 to-purple-500/10 backdrop-blur-[2px]">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="relative z-10 max-w-[1440px] mx-auto px-6 lg:px-12 w-full">
+                <div class="max-w-xl hero-glass p-10 md:p-14 rounded-[40px] shadow-2xl shadow-blue-500/5">
+                    <span class="text-accent font-bold tracking-widest text-xs uppercase mb-4 block">Future of
+                        Coding</span>
+                    <h1 class="text-5xl lg:text-7xl font-bold tracking-tight mb-6 leading-[1.05]">
+                        Code with your <span class="text-accent">own vibe.</span>
+                    </h1>
+                    <p class="text-lg text-gray-600 mb-10 leading-relaxed">
+                        Introducing a new dimension of performance. Tailored aesthetics, AI-powered flow, and a digital
+                        sanctuary designed for the modern architect.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="samsung-btn-primary">Learn more</button>
+                        <button class="samsung-btn-outline">Download now</button>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="absolute bottom-10 right-10 hidden xl:flex items-center gap-3 bg-white/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/40">
+                <span class="material-symbols-outlined text-blue-600">auto_awesome</span>
+                <span class="text-xs font-bold uppercase tracking-widest">New Engine Alpha</span>
+            </div>
+        </section>
+        <section class="py-24 px-6 lg:px-12 bg-white">
+            <div class="max-w-[1440px] mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold mb-4">Discover Your Flow</h2>
+                    <div class="flex justify-center gap-8 mt-8 border-b border-gray-100 overflow-x-auto pb-4">
+                        <button class="pb-2 border-b-2 border-black font-bold whitespace-nowrap">For
+                            Individuals</button>
+                        <button
+                            class="pb-2 border-b-2 border-transparent text-gray-400 font-bold hover:text-black transition-colors whitespace-nowrap">For
+                            Teams</button>
+                        <button
+                            class="pb-2 border-b-2 border-transparent text-gray-400 font-bold hover:text-black transition-colors whitespace-nowrap">Enterprise</button>
+                        <button
+                            class="pb-2 border-b-2 border-transparent text-gray-400 font-bold hover:text-black transition-colors whitespace-nowrap">What's
+                            New</button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div
+                        class="group relative bg-[#f7f7f7] rounded-[32px] overflow-hidden aspect-[4/5] flex flex-col items-center justify-between p-12 transition-all hover:shadow-xl">
+                        <div class="text-center">
+                            <h3 class="text-2xl font-bold mb-2">Vibe Focus</h3>
+                            <p class="text-sm text-gray-500">Immersive soundscapes for deep flow.</p>
+                        </div>
+                        <div class="w-full aspect-square flex items-center justify-center p-8">
+                            <span
+                                class="material-symbols-outlined text-[120px] text-gray-300 group-hover:text-blue-500 transition-colors">headphones</span>
+                        </div>
+                        <a class="text-sm font-bold border-b-2 border-black pb-1 hover:text-blue-600 hover:border-blue-600 transition-colors"
+                            href="#">Learn more</a>
+                    </div>
+                    <div
+                        class="group relative bg-[#f7f7f7] rounded-[32px] overflow-hidden aspect-[4/5] flex flex-col items-center justify-between p-12 transition-all hover:shadow-xl">
+                        <div class="text-center">
+                            <h3 class="text-2xl font-bold mb-2">Aesthetic Cloud</h3>
+                            <p class="text-sm text-gray-500">Sync your vibe across every device.</p>
+                        </div>
+                        <div class="w-full aspect-square flex items-center justify-center p-8">
+                            <span
+                                class="material-symbols-outlined text-[120px] text-gray-300 group-hover:text-blue-500 transition-colors">cloud_sync</span>
+                        </div>
+                        <a class="text-sm font-bold border-b-2 border-black pb-1 hover:text-blue-600 hover:border-blue-600 transition-colors"
+                            href="#">Learn more</a>
+                    </div>
+                    <div
+                        class="group relative bg-[#f7f7f7] rounded-[32px] overflow-hidden aspect-[4/5] flex flex-col items-center justify-between p-12 transition-all hover:shadow-xl">
+                        <div class="text-center">
+                            <h3 class="text-2xl font-bold mb-2">Sync AI</h3>
+                            <p class="text-sm text-gray-500">Intelligence built for creativity.</p>
+                        </div>
+                        <div class="w-full aspect-square flex items-center justify-center p-8">
+                            <span
+                                class="material-symbols-outlined text-[120px] text-gray-300 group-hover:text-blue-500 transition-colors">psychology</span>
+                        </div>
+                        <a class="text-sm font-bold border-b-2 border-black pb-1 hover:text-blue-600 hover:border-blue-600 transition-colors"
+                            href="#">Learn more</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="bg-white py-24 border-t border-gray-100">
+            <div class="max-w-[800px] mx-auto text-center px-6">
+                <h2 class="text-3xl font-bold mb-6">Stay in the loop</h2>
+                <p class="text-gray-500 mb-10">Sign up to receive the latest updates on Vibe Coding products, services,
+                    and special offers.</p>
+                <form class="flex flex-col sm:flex-row gap-3">
+                    <input
+                        class="flex-1 bg-gray-50 border border-gray-200 rounded-full px-8 py-4 focus:ring-1 focus:ring-black outline-none transition-all"
+                        placeholder="Enter your email address" type="email" />
+                    <button
+                        class="bg-black text-white font-bold px-10 py-4 rounded-full hover:bg-gray-800 transition-all">
+                        Sign up
+                    </button>
+                </form>
+                <p class="text-[11px] text-gray-400 mt-6 max-w-lg mx-auto leading-relaxed">By providing your email you
+                    agree to receive marketing communications. You can unsubscribe at any time. View our Privacy Policy
+                    for details.</p>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-white border-t border-gray-100 py-16 px-6 lg:px-12">
+        <div class="max-w-[1440px] mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16">
+                <div class="lg:col-span-1">
+                    <h5 class="font-bold text-sm mb-6 uppercase tracking-wider">Product &amp; Service</h5>
+                    <div class="flex flex-col gap-3">
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Desktop IDE</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Mobile Preview</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Vibe Themes</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">AI Copilot</a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="font-bold text-sm mb-6 uppercase tracking-wider">Shop</h5>
+                    <div class="flex flex-col gap-3">
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Offers</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Education</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Business Store</a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="font-bold text-sm mb-6 uppercase tracking-wider">Support</h5>
+                    <div class="flex flex-col gap-3">
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Live Chat</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Email Us</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Documentation</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Community Forum</a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="font-bold text-sm mb-6 uppercase tracking-wider">Account</h5>
+                    <div class="flex flex-col gap-3">
+                        <a class="text-xs text-gray-500 hover:underline" href="#">My Profile</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Orders</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Wishlist</a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="font-bold text-sm mb-6 uppercase tracking-wider">About Us</h5>
+                    <div class="flex flex-col gap-3">
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Our Culture</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Sustainability</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Newsroom</a>
+                        <a class="text-xs text-gray-500 hover:underline" href="#">Careers</a>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="border-t border-gray-100 pt-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                <div class="flex flex-wrap gap-6 text-[11px] font-bold text-gray-500 uppercase tracking-widest">
+                    <span>© 2024 Vibe Coding Inc. All rights reserved.</span>
+                    <a class="hover:underline" href="#">Privacy Policy</a>
+                    <a class="hover:underline" href="#">Terms of Service</a>
+                    <a class="hover:underline" href="#">Legal</a>
+                    <a class="hover:underline" href="#">Accessibility</a>
+                    <a class="hover:underline" href="#">Cookies</a>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-[11px] font-bold text-gray-400">United States / English</span>
+                    <div class="flex gap-4">
+                        <span
+                            class="material-symbols-outlined text-xl text-gray-400 cursor-pointer hover:text-black">language</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
