@@ -1,11 +1,17 @@
 package com.example.vibeapp.post;
 
+import com.example.vibeapp.post.dto.PostCreateDto;
+import com.example.vibeapp.post.dto.PostResponseDTO;
+import com.example.vibeapp.post.dto.PostUpdateDto;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PostController {
@@ -16,7 +22,7 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public String list(@org.springframework.web.bind.annotation.RequestParam(name = "page", defaultValue = "1") int page, Model model) {
+    public String list(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
         int size = 5;
         model.addAttribute("posts", postService.findAll(page, size));
         model.addAttribute("currentPage", page);
@@ -26,32 +32,41 @@ public class PostController {
 
     @GetMapping("/posts/{id}")
     public String detail(@PathVariable("id") Long id, Model model) {
-        Post post = postService.findById(id);
+        PostResponseDTO post = postService.findById(id);
         model.addAttribute("post", post);
         return "post/post_detail";
     }
 
     @GetMapping("/posts/new")
-    public String createForm() {
+    public String createForm(Model model) {
+        model.addAttribute("post", new PostCreateDto());
         return "post/post_new_form";
     }
 
     @PostMapping("/posts/add")
-    public String save(@ModelAttribute Post post) {
-        postService.save(post);
+    public String save(@Valid @ModelAttribute("post") PostCreateDto postDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "post/post_new_form";
+        }
+        postService.save(postDto);
         return "redirect:/posts";
     }
 
     @GetMapping("/posts/{id}/edit")
     public String editForm(@PathVariable("id") Long id, Model model) {
-        Post post = postService.findById(id);
+        PostResponseDTO post = postService.findById(id);
         model.addAttribute("post", post);
         return "post/post_edit_form";
     }
 
     @PostMapping("/posts/{id}/save")
-    public String update(@PathVariable("id") Long id, @ModelAttribute Post post) {
-        postService.update(id, post.getTitle(), post.getContent());
+    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("post") PostUpdateDto postDto,
+            BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("post", postService.findById(id)); // Keep ID and other non-editable fields
+            return "post/post_edit_form";
+        }
+        postService.update(id, postDto);
         return "redirect:/posts/" + id;
     }
 
