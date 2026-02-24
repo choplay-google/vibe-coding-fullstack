@@ -11,7 +11,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan("com.example.vibeapp.post.mapper")
+@MapperScan("com.example.vibeapp.post")
 public class MyBatisConfig {
 
     @Bean
@@ -19,7 +19,8 @@ public class MyBatisConfig {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
         sessionFactory
-                .setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
+                .setMapperLocations(
+                        new PathMatchingResourcePatternResolver().getResources("classpath:mapper/**/*.xml"));
         sessionFactory.setTypeAliasesPackage("com.example.vibeapp.post");
 
         org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
