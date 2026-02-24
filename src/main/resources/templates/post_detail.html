@@ -125,6 +125,11 @@
 
             <div class="mt-16 text-center flex justify-center gap-4">
                 <a th:href="@{/posts/{no}/edit(no=${post.no})}" class="samsung-btn-primary inline-block">수정하기</a>
+                <form th:action="@{/posts/{no}/delete(no=${post.no})}" method="POST"
+                    onsubmit="return confirm('진짜 삭제하시겠습니까?');" class="inline">
+                    <button type="submit"
+                        class="samsung-btn-outline inline-block bg-red-50 border-red-200 text-red-600 hover:bg-red-600 hover:text-white">삭제하기</button>
+                </form>
                 <a href="/posts" class="samsung-btn-outline inline-block">Explore More Vibes</a>
             </div>
         </div>
