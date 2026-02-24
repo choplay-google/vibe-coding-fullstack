@@ -10,6 +10,6 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("message", "Welcome to Vibe App! Thymeleaf is now up and running.");
-        return "home";
+        return "home/home";
     }
 }
