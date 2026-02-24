@@ -85,19 +85,25 @@
             </div>
 
             <div class="bg-white border border-gray-100 rounded-[40px] p-8 md:p-12 shadow-2xl shadow-blue-500/5">
-                <form action="/posts/add" method="POST" class="space-y-8">
+                <form th:action="@{/posts/add}" th:object="${post}" method="POST" class="space-y-8">
                     <div>
                         <label for="title"
                             class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 ml-1">Title</label>
-                        <input type="text" id="title" name="title" required placeholder="Enter a catchy title"
-                            class="form-input" />
+                        <input type="text" id="title" th:field="*{title}" required placeholder="Enter a catchy title"
+                            class="form-input"
+                            th:classappend="${#fields.hasErrors('title')} ? 'border-red-500 focus:ring-red-200' : ''" />
+                        <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+                            class="text-red-500 text-xs mt-1 ml-1 font-bold italic"></p>
                     </div>
 
                     <div>
                         <label for="content"
                             class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 ml-1">Content</label>
-                        <textarea id="content" name="content" required rows="8" placeholder="What's on your mind?"
-                            class="form-input resize-none"></textarea>
+                        <textarea id="content" th:field="*{content}" required rows="8"
+                            placeholder="What's on your mind?" class="form-input resize-none"
+                            th:classappend="${#fields.hasErrors('content')} ? 'border-red-500 focus:ring-red-200' : ''"></textarea>
+                        <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
+                            class="text-red-500 text-xs mt-1 ml-1 font-bold italic"></p>
                     </div>
 
                     <div class="flex items-center justify-center gap-4 pt-4">

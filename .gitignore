@@ -10,3 +10,13 @@ build/
 .DS_Store
 bin/
 /HELP.md
+
+# H2 Database
+/data/
+*.mv.db
+*.trace.db
+
+# Logs
+/logs/
+*.log
+*.txt

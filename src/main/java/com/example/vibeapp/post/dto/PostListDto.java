@@ -4,7 +4,7 @@ import com.example.vibeapp.post.Post;
 import java.time.LocalDateTime;
 
 public record PostListDto(
-        Long id,
+        Long no,
         String title,
         LocalDateTime createdAt,
         Integer views) {
@@ -12,7 +12,7 @@ public record PostListDto(
         if (entity == null)
             return null;
         return new PostListDto(
-                entity.getId(),
+                entity.getNo(),
                 entity.getTitle(),
                 entity.getCreatedAt(),
                 entity.getViews());

@@ -30,9 +30,9 @@ public class PostController {
         return "post/posts";
     }
 
-    @GetMapping("/posts/{id}")
-    public String detail(@PathVariable("id") Long id, Model model) {
-        PostResponseDTO post = postService.findById(id);
+    @GetMapping("/posts/{no}")
+    public String detail(@PathVariable("no") Long no, Model model) {
+        PostResponseDTO post = postService.findById(no);
         model.addAttribute("post", post);
         return "post/post_detail";
     }
@@ -52,27 +52,27 @@ public class PostController {
         return "redirect:/posts";
     }
 
-    @GetMapping("/posts/{id}/edit")
-    public String editForm(@PathVariable("id") Long id, Model model) {
-        PostResponseDTO post = postService.findById(id);
+    @GetMapping("/posts/{no}/edit")
+    public String editForm(@PathVariable("no") Long no, Model model) {
+        PostResponseDTO post = postService.findById(no);
         model.addAttribute("post", post);
         return "post/post_edit_form";
     }
 
-    @PostMapping("/posts/{id}/save")
-    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("post") PostUpdateDto postDto,
+    @PostMapping("/posts/{no}/save")
+    public String update(@PathVariable("no") Long no, @Valid @ModelAttribute("post") PostUpdateDto postDto,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("post", postService.findById(id)); // Keep ID and other non-editable fields
+            model.addAttribute("post", postService.findById(no));
             return "post/post_edit_form";
         }
-        postService.update(id, postDto);
-        return "redirect:/posts/" + id;
+        postService.update(no, postDto);
+        return "redirect:/posts/" + no;
     }
 
-    @PostMapping("/posts/{id}/delete")
-    public String delete(@PathVariable("id") Long id) {
-        postService.delete(id);
+    @PostMapping("/posts/{no}/delete")
+    public String delete(@PathVariable("no") Long no) {
+        postService.delete(no);
         return "redirect:/posts";
     }
 }

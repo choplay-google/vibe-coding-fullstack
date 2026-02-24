@@ -3,17 +3,19 @@ package com.example.vibeapp.post;
 import java.time.LocalDateTime;
 
 public class Post {
-    private Long id;
+    private Long no;
     private String title;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Integer views;
 
-    public Post() {}
+    public Post() {
+    }
 
-    public Post(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, Integer views) {
-        this.id = id;
+    public Post(Long no, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt,
+            Integer views) {
+        this.no = no;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
@@ -21,21 +23,51 @@ public class Post {
         this.views = views;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getNo() {
+        return no;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setNo(Long no) {
+        this.no = no;
+    }
 
-    public String getContent() { return content; }
-    public void setContent(String content) { this.content = content; }
+    public String getTitle() {
+        return title;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public String getContent() {
+        return content;
+    }
 
-    public Integer getViews() { return views; }
-    public void setViews(Integer views) { this.views = views; }
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Integer getViews() {
+        return views;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
+    }
 }
