@@ -1,6 +1,5 @@
-package com.example.vibeapp.repository;
+package com.example.vibeapp.post;
 
-import com.example.vibeapp.entity.Post;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;

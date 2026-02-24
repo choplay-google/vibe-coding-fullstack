@@ -1,7 +1,5 @@
-package com.example.vibeapp.service;
+package com.example.vibeapp.post;
 
-import com.example.vibeapp.entity.Post;
-import com.example.vibeapp.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
