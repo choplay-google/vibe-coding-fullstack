@@ -21,16 +21,17 @@ spring:
     init:
       mode: never
 
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.example.vibeapp.post
-  configuration:
-    map-underscore-to-camel-case: true
-    jdbc-type-for-null: NULL
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
 logging:
   level:
     root: INFO
     com.example.vibeapp: DEBUG
     org.springframework.jdbc: DEBUG
-    org.mybatis: DEBUG
+    org.hibernate.SQL: DEBUG

@@ -1,14 +1,34 @@
 package com.example.vibeapp.post;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "POSTS")
 public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
+
+    @Column(nullable = false, length = 100)
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String content;
+
+    @Column(name = "CREATED_AT", updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
+
     private Integer views;
+
+    // Post가 삭제될 때 관련 태그도 함께 삭제되도록 orphanRemoval = true 설정
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostTag> tags = new ArrayList<>();
 
     public Post() {
     }
@@ -21,6 +41,31 @@ public class Post {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.views = views;
+    }
+
+    // JPA 동작 원리: 영속성 컨텍스트가 엔티티의 변경사항을 감지하여 트랜잭션 종료 시 DB에 반영함
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void incrementViews() {
+        this.views = (this.views == null ? 0 : this.views) + 1;
+    }
+
+    public List<PostTag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<PostTag> tags) {
+        this.tags = tags;
+    }
+
+    // 연관관계 편의 메서드
+    public void addTag(PostTag tag) {
+        tags.add(tag);
+        tag.setPost(this);
     }
 
     public Long getNo() {

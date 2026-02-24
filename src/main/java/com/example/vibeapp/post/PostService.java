@@ -7,18 +7,18 @@ import com.example.vibeapp.post.dto.PostUpdateDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 public class PostService {
 
     private final PostRepository postRepository;
-    private final PostTagRepository postTagRepository;
 
-    public PostService(PostRepository postRepository, PostTagRepository postTagRepository) {
+    public PostService(PostRepository postRepository) {
         this.postRepository = postRepository;
-        this.postTagRepository = postTagRepository;
     }
 
     public List<PostListDto> findAll() {
@@ -27,10 +27,20 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public PostResponseDTO findById(Long no) {
-        postRepository.incrementViews(no);
         Post post = postRepository.findById(no);
-        String tags = getTagsAsString(no);
+        if (post == null) {
+            throw new IllegalArgumentException("게시글을 찾을 수 없습니다. (no: " + no + ")");
+        }
+        
+        // JPA 변경 감지(Dirty Checking): 트랜잭션 내에서 엔티티 상태 변경 시 자동 update 쿼리 실행
+        post.incrementViews();
+        
+        String tags = post.getTags().stream()
+                .map(PostTag::getTagName)
+                .collect(Collectors.joining(", "));
+                
         PostResponseDTO dto = PostResponseDTO.from(post);
         return new PostResponseDTO(dto.no(), dto.title(), dto.content(), dto.createdAt(), dto.updatedAt(), dto.views(), tags);
     }
@@ -38,12 +48,14 @@ public class PostService {
     @Transactional
     public PostResponseDTO save(PostCreateDto dto) {
         Post post = dto.toEntity();
-        post.setCreatedAt(java.time.LocalDateTime.now());
-        post.setUpdatedAt(null);
+        post.setCreatedAt(LocalDateTime.now());
         post.setViews(0);
-        postRepository.save(post);
         
-        saveTags(post.getNo(), dto.tags());
+        // Tags 처리 - 연관관계 편의 메서드 활용
+        processTags(post, dto.tags());
+        
+        // Post만 persist하면 CascadeType.ALL에 의해 PostTag도 자동 저장됨 (영속성 전이)
+        postRepository.save(post);
         
         return findById(post.getNo());
     }
@@ -52,17 +64,17 @@ public class PostService {
     public PostResponseDTO update(Long no, PostUpdateDto dto) {
         Post post = postRepository.findById(no);
         if (post != null) {
-            post.setTitle(dto.title());
-            post.setContent(dto.content());
-            post.setUpdatedAt(java.time.LocalDateTime.now());
-            postRepository.update(post);
+            // Dirty Checking: 트랜잭션 내에서 엔티티 수정 시 영속성 컨텍스트가 추적하다가 커밋 시점에 flush
+            post.update(dto.title(), dto.content());
             
-            postTagRepository.deleteByPostNo(no);
-            saveTags(no, dto.tags());
+            // 기존 태그 삭제 및 신규 태그 추가 (orphanRemoval = true에 의해 리스트에서 제거된 엔티티는 자동 delete)
+            post.getTags().clear();
+            processTags(post, dto.tags());
         }
         return findById(no);
     }
 
+    @Transactional
     public void delete(Long no) {
         postRepository.delete(no);
     }
@@ -80,25 +92,15 @@ public class PostService {
         return (int) Math.ceil((double) totalPosts / size);
     }
 
-    private void saveTags(Long postNo, String tagsString) {
+    private void processTags(Post post, String tagsString) {
         if (tagsString != null && !tagsString.trim().isEmpty()) {
             String[] tags = tagsString.split(",");
             for (String tag : tags) {
                 String trimmedTag = tag.trim();
                 if (!trimmedTag.isEmpty()) {
-                    postTagRepository.save(new PostTag(null, postNo, trimmedTag));
+                    post.addTag(new PostTag(trimmedTag));
                 }
             }
         }
-    }
-
-    private String getTagsAsString(Long postNo) {
-        List<PostTag> postTags = postTagRepository.findByPostNo(postNo);
-        if (postTags == null || postTags.isEmpty()) {
-            return "";
-        }
-        return postTags.stream()
-                .map(PostTag::getTagName)
-                .collect(Collectors.joining(", "));
     }
 }

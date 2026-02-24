@@ -1,16 +1,30 @@
 package com.example.vibeapp.post;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "POST_TAGS")
 public class PostTag {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long postNo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "POST_NO")
+    private Post post;
+
+    @Column(name = "TAG_NAME", nullable = false)
     private String tagName;
 
     public PostTag() {
     }
 
-    public PostTag(Long id, Long postNo, String tagName) {
-        this.id = id;
-        this.postNo = postNo;
+    public PostTag(String tagName) {
+        this.tagName = tagName;
+    }
+
+    public PostTag(Post post, String tagName) {
+        this.post = post;
         this.tagName = tagName;
     }
 
@@ -22,12 +36,12 @@ public class PostTag {
         this.id = id;
     }
 
-    public Long getPostNo() {
-        return postNo;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPostNo(Long postNo) {
-        this.postNo = postNo;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public String getTagName() {
