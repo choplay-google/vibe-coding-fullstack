@@ -88,12 +88,12 @@
             </div>
 
             <div class="bg-white border border-gray-100 rounded-[40px] p-8 md:p-12 shadow-2xl shadow-blue-500/5">
-                <form th:action="@{/posts/{no}/save(no=${post.no})}" method="POST" class="space-y-6">
+                <form th:action="@{/posts/{id}/save(id=${post.id})}" method="POST" class="space-y-6">
                     <div class="grid grid-cols-2 gap-6">
                         <div>
                             <label
-                                class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">No</label>
-                            <input type="text" th:value="${post.no}" readonly class="form-input-readonly" />
+                                class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">ID</label>
+                            <input type="text" th:value="${post.id}" readonly class="form-input-readonly" />
                         </div>
                         <div>
                             <label
@@ -136,7 +136,7 @@
 
                     <div class="flex items-center justify-center gap-4 pt-6">
                         <button type="submit" class="samsung-btn-primary flex-1">저장</button>
-                        <a th:href="@{/posts/{no}(no=${post.no})}" class="samsung-btn-outline flex-1 text-center">취소</a>
+                        <a th:href="@{/posts/{id}(id=${post.id})}" class="samsung-btn-outline flex-1 text-center">취소</a>
                     </div>
                 </form>
             </div>

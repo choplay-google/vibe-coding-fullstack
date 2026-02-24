@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public class PostRepository {
     private final List<Post> posts = new ArrayList<>();
-    private long nextNo = 1;
+    private long nextId = 1;
 
     public PostRepository() {
         for (long i = 1; i <= 10; i++) {
@@ -25,8 +25,8 @@ public class PostRepository {
     }
 
     public Post save(Post post) {
-        if (post.getNo() == null) {
-            post.setNo(nextNo++);
+        if (post.getId() == null) {
+            post.setId(nextId++);
         }
         posts.add(post);
         return post;
@@ -38,14 +38,14 @@ public class PostRepository {
         return reversed;
     }
 
-    public Post findByNo(Long no) {
+    public Post findById(Long id) {
         return posts.stream()
-                .filter(post -> post.getNo().equals(no))
+                .filter(post -> post.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
 
-    public void deleteByNo(Long no) {
-        posts.removeIf(post -> post.getNo().equals(no));
+    public void deleteById(Long id) {
+        posts.removeIf(post -> post.getId().equals(id));
     }
 }

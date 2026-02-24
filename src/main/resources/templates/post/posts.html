@@ -111,9 +111,9 @@
                     <tbody>
                         <tr th:each="post : ${posts}"
                             class="hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-none">
-                            <td class="px-6 py-5 text-sm font-medium text-gray-500" th:text="${post.no}">1</td>
+                            <td class="px-6 py-5 text-sm font-medium text-gray-500" th:text="${post.id}">1</td>
                             <td class="px-6 py-5 text-sm font-bold text-black group cursor-pointer">
-                                <a th:href="@{/posts/{no}(no=${post.no})}"
+                                <a th:href="@{/posts/{id}(id=${post.id})}"
                                     class="group-hover:text-accent transition-colors" th:text="${post.title}">Sample
                                     Title</a>
                             </td>
