@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title th:text="'Vibe Coding | ' + ${post.title}">Vibe Coding | Post Detail</title>
+    <title id="page-title">Vibe Coding | Post Detail</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet" />
     <link
@@ -67,7 +67,7 @@
                 <nav class="hidden xl:flex items-center gap-6">
                     <a class="nav-link" href="#">IDE Tools</a>
                     <a class="nav-link" href="#">AI Engine</a>
-                    <a class="nav-link underline decoration-2 underline-offset-8" href="/posts">Community Posts</a>
+                    <a class="nav-link underline decoration-2 underline-offset-8" href="/posts.html">Community Posts</a>
                     <a class="nav-link" href="#">Extensions</a>
                 </nav>
             </div>
@@ -80,64 +80,56 @@
     </header>
 
     <main class="min-h-[70vh] py-16 px-6 lg:px-12">
-        <div class="max-w-4xl mx-auto">
+        <div id="content-area" class="max-w-4xl mx-auto">
             <div class="mb-10 flex items-center justify-between">
-                <a href="/posts" class="flex items-center gap-2 text-gray-500 hover:text-black transition-colors">
+                <a href="/posts.html" class="flex items-center gap-2 text-gray-500 hover:text-black transition-colors">
                     <span class="material-symbols-outlined">arrow_back</span>
                     <span class="text-sm font-bold">Back to List</span>
                 </a>
                 <div class="flex items-center gap-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
                     <div class="flex items-center gap-1">
                         <span class="material-symbols-outlined text-sm">tag</span>
-                        <span th:text="${post.no}">1</span>
+                        <span id="post-no">...</span>
                     </div>
                     <div class="flex items-center gap-1">
                         <span class="material-symbols-outlined text-sm">visibility</span>
-                        <span th:text="${post.views}">123</span>
+                        <span id="post-views">...</span>
                     </div>
                 </div>
             </div>
 
             <article class="bg-white border border-gray-100 rounded-[40px] p-8 md:p-16 shadow-2xl shadow-blue-500/5">
                 <header class="mb-12 border-b border-gray-50 pb-10">
-                    <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight"
-                        th:text="${post.title}">Post Title</h1>
+                    <h1 id="post-title" class="text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight">
+                        Loading...</h1>
 
-                    <div th:if="${post.tags != null and !post.tags.isEmpty()}" class="mb-6 flex flex-wrap gap-2">
-                        <span th:each="tag : ${#strings.arraySplit(post.tags, ',')}"
-                            class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-medium"
-                            th:text="${'#' + #strings.trim(tag)}">#Tag</span>
+                    <div id="post-tags" class="mb-6 flex flex-wrap gap-2">
+                        <!-- Tags will be loaded here -->
                     </div>
 
                     <div class="flex flex-wrap gap-6 items-center text-sm text-gray-500">
                         <div class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-lg">calendar_today</span>
-                            <span>Created: <span
-                                    th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">2024-02-23</span></span>
+                            <span>Created: <span id="post-created">...</span></span>
                         </div>
                         <div class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-lg">edit</span>
-                            <span>Updated: <span
-                                    th:text="${#temporals.format(post.updatedAt, 'yyyy-MM-dd HH:mm')}">2024-02-23</span></span>
+                            <span>Updated: <span id="post-updated">...</span></span>
                         </div>
                     </div>
                 </header>
 
-                <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed whitespace-pre-wrap"
-                    th:text="${post.content}">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua.
+                <div id="post-content"
+                    class="prose prose-lg max-w-none text-gray-600 leading-relaxed whitespace-pre-wrap">
+                    Loading content...
                 </div>
             </article>
 
             <div class="mt-16 text-center flex justify-center gap-4">
-                <a th:href="@{/posts/{no}/edit(no=${post.no})}" class="samsung-btn-primary inline-block">수정하기</a>
-                <form th:action="@{/posts/{no}/delete(no=${post.no})}" method="POST"
-                    onsubmit="return confirm('진짜 삭제하시겠습니까?');" class="inline">
-                    <button type="submit"
-                        class="samsung-btn-outline inline-block bg-red-50 border-red-200 text-red-600 hover:bg-red-600 hover:text-white">삭제하기</button>
-                </form>
-                <a href="/posts" class="samsung-btn-outline inline-block">Explore More Vibes</a>
+                <a id="edit-link" href="#" class="samsung-btn-primary inline-block">수정하기</a>
+                <button onclick="deletePost()"
+                    class="samsung-btn-outline inline-block bg-red-50 border-red-200 text-red-600 hover:bg-red-600 hover:text-white">삭제하기</button>
+                <a href="/posts.html" class="samsung-btn-outline inline-block">Explore More Vibes</a>
             </div>
         </div>
     </main>
@@ -157,6 +149,74 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const postNo = urlParams.get('no');
+
+        async function fetchPost() {
+            if (!postNo) {
+                alert('Invalid post number');
+                window.location.href = '/posts.html';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/posts/${postNo}`);
+                if (!response.ok) throw new Error('Post not found');
+                const post = await response.json();
+                renderPost(post);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('content-area').innerHTML = `
+                    <div class="text-center py-20">
+                        <h2 class="text-2xl font-bold text-red-500">Error</h2>
+                        <p class="text-gray-500 mt-2">Could not load the post. It may have been deleted.</p>
+                        <a href="/posts.html" class="mt-8 samsung-btn-primary inline-block">Back to List</a>
+                    </div>
+                `;
+            }
+        }
+
+        function renderPost(post) {
+            document.getElementById('page-title').innerText = `Vibe Coding | ${post.title}`;
+            document.getElementById('post-no').innerText = post.no;
+            document.getElementById('post-views').innerText = post.views || 0;
+            document.getElementById('post-title').innerText = post.title;
+            document.getElementById('post-content').innerText = post.content;
+            document.getElementById('post-created').innerText = new Date(post.createdAt).toLocaleString();
+            document.getElementById('post-updated').innerText = new Date(post.updatedAt).toLocaleString();
+            document.getElementById('edit-link').href = `/post_form.html?no=${post.no}`;
+
+            const tagsContainer = document.getElementById('post-tags');
+            if (post.tags) {
+                tagsContainer.innerHTML = post.tags.split(',')
+                    .map(tag => `<span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">#${tag.trim()}</span>`)
+                    .join('');
+            } else {
+                tagsContainer.innerHTML = '';
+            }
+        }
+
+        async function deletePost() {
+            if (!confirm('진짜 삭제하시겠습니까?')) return;
+
+            try {
+                const response = await fetch(`/api/posts/${postNo}`, { method: 'DELETE' });
+                if (response.ok) {
+                    alert('Deleted successfully');
+                    window.location.href = '/posts.html';
+                } else {
+                    throw new Error('Delete failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to delete post');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => fetchPost());
+    </script>
 </body>
 
 </html>

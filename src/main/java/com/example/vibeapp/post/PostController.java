@@ -1,19 +1,18 @@
 package com.example.vibeapp.post;
 
 import com.example.vibeapp.post.dto.PostCreateDto;
+import com.example.vibeapp.post.dto.PostListDto;
 import com.example.vibeapp.post.dto.PostResponseDTO;
 import com.example.vibeapp.post.dto.PostUpdateDto;
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/posts")
 public class PostController {
     private final PostService postService;
 
@@ -21,58 +20,34 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping("/posts")
-    public String list(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
+    @GetMapping
+    public ResponseEntity<List<PostListDto>> list(@RequestParam(name = "page", defaultValue = "1") int page) {
         int size = 5;
-        model.addAttribute("posts", postService.findAll(page, size));
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", postService.getTotalPages(size));
-        return "post/posts";
+        List<PostListDto> posts = postService.findAll(page, size);
+        return ResponseEntity.ok(posts);
     }
 
-    @GetMapping("/posts/{no}")
-    public String detail(@PathVariable("no") Long no, Model model) {
+    @GetMapping("/{no}")
+    public ResponseEntity<PostResponseDTO> detail(@PathVariable("no") Long no) {
         PostResponseDTO post = postService.findById(no);
-        model.addAttribute("post", post);
-        return "post/post_detail";
+        return ResponseEntity.ok(post);
     }
 
-    @GetMapping("/posts/new")
-    public String createForm(Model model) {
-        model.addAttribute("post", new PostCreateDto());
-        return "post/post_new_form";
+    @PostMapping
+    public ResponseEntity<PostResponseDTO> save(@Valid @RequestBody PostCreateDto postDto) {
+        PostResponseDTO savedPost = postService.save(postDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedPost);
     }
 
-    @PostMapping("/posts/add")
-    public String save(@Valid @ModelAttribute("post") PostCreateDto postDto, BindingResult result) {
-        if (result.hasErrors()) {
-            return "post/post_new_form";
-        }
-        postService.save(postDto);
-        return "redirect:/posts";
+    @PatchMapping("/{no}")
+    public ResponseEntity<PostResponseDTO> update(@PathVariable("no") Long no, @Valid @RequestBody PostUpdateDto postDto) {
+        PostResponseDTO updatedPost = postService.update(no, postDto);
+        return ResponseEntity.ok(updatedPost);
     }
 
-    @GetMapping("/posts/{no}/edit")
-    public String editForm(@PathVariable("no") Long no, Model model) {
-        PostResponseDTO post = postService.findById(no);
-        model.addAttribute("post", post);
-        return "post/post_edit_form";
-    }
-
-    @PostMapping("/posts/{no}/save")
-    public String update(@PathVariable("no") Long no, @Valid @ModelAttribute("post") PostUpdateDto postDto,
-            BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("post", postService.findById(no));
-            return "post/post_edit_form";
-        }
-        postService.update(no, postDto);
-        return "redirect:/posts/" + no;
-    }
-
-    @PostMapping("/posts/{no}/delete")
-    public String delete(@PathVariable("no") Long no) {
+    @DeleteMapping("/{no}")
+    public ResponseEntity<Void> delete(@PathVariable("no") Long no) {
         postService.delete(no);
-        return "redirect:/posts";
+        return ResponseEntity.noContent().build();
     }
 }

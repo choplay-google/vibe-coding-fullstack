@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -67,7 +67,7 @@
                 <nav class="hidden xl:flex items-center gap-6">
                     <a class="nav-link" href="#">IDE Tools</a>
                     <a class="nav-link" href="#">AI Engine</a>
-                    <a class="nav-link underline decoration-2 underline-offset-8" href="/posts">Community Posts</a>
+                    <a class="nav-link underline decoration-2 underline-offset-8" href="/posts.html">Community Posts</a>
                     <a class="nav-link" href="#">Extensions</a>
                 </nav>
             </div>
@@ -108,62 +108,23 @@
                                 VIEWS</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr th:each="post : ${posts}"
-                            class="hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-none">
-                            <td class="px-6 py-5 text-sm font-medium text-gray-500" th:text="${post.no}">1</td>
-                            <td class="px-6 py-5 text-sm font-bold text-black group cursor-pointer">
-                                <a th:href="@{/posts/{no}(no=${post.no})}"
-                                    class="group-hover:text-accent transition-colors" th:text="${post.title}">Sample
-                                    Title</a>
-                            </td>
-                            <td class="px-6 py-5 text-sm text-gray-500"
-                                th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">2024-02-23</td>
-                            <td class="px-6 py-5 text-sm text-gray-500">
-                                <div class="flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-sm">visibility</span>
-                                    <span th:text="${post.views}">123</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr th:if="${#lists.isEmpty(posts)}">
+                    <tbody id="posts-body">
+                        <!-- Content will be loaded via JS -->
+                        <tr>
                             <td colspan="4" class="px-6 py-20 text-center text-gray-400 italic">
-                                No posts found. Start sharing your vibe!
+                                Loading posts...
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- Pagination Navigation -->
-            <div th:if="${totalPages > 1}" class="mt-12 flex items-center justify-center gap-4">
-                <!-- Previous Button -->
-                <a th:if="${currentPage > 1}" th:href="@{/posts(page=${currentPage - 1})}"
-                    class="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-100 hover:bg-gray-50 transition-all text-sm font-medium">
-                    <span class="material-symbols-outlined text-xl">chevron_left</span>
-                    <span>Prev</span>
-                </a>
-
-                <!-- Page Numbers -->
-                <div class="flex items-center gap-1">
-                    <a th:each="pageNum : ${#numbers.sequence(1, totalPages)}" th:href="@{/posts(page=${pageNum})}"
-                        th:text="${pageNum}"
-                        class="flex items-center justify-center w-10 h-10 rounded-full text-sm font-bold transition-all"
-                        th:classappend="${pageNum == currentPage} ? 'bg-black text-white' : 'text-gray-400 hover:bg-gray-50 hover:text-black'">
-                        1
-                    </a>
-                </div>
-
-                <!-- Next Button -->
-                <a th:if="${currentPage < totalPages}" th:href="@{/posts(page=${currentPage + 1})}"
-                    class="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-100 hover:bg-gray-50 transition-all text-sm font-medium">
-                    <span>Next</span>
-                    <span class="material-symbols-outlined text-xl">chevron_right</span>
-                </a>
+            <div id="pagination" class="mt-12 flex items-center justify-center gap-4">
+                <!-- Pagination will be loaded via JS -->
             </div>
 
             <div class="mt-10 flex justify-center">
-                <a href="/posts/new" class="samsung-btn-primary">새 글</a>
+                <a href="/post_form.html" class="samsung-btn-primary">새 글</a>
             </div>
         </div>
     </main>
@@ -183,6 +144,61 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        async function fetchPosts(page = 1) {
+            try {
+                const response = await fetch(`/api/posts?page=${page}`);
+                if (!response.ok) throw new Error('Failed to fetch posts');
+                const posts = await response.json();
+                renderPosts(posts);
+                // Note: The /api/posts currently only returns the list, not total pages info.
+                // For a complete CSR, would need to update the API to include paging metadata.
+                // For now, let's assume simple pagination or just render what we have.
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('posts-body').innerHTML = `
+                    <tr>
+                        <td colspan="4" class="px-6 py-20 text-center text-red-400 italic">
+                            Error loading posts. Please try again later.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function renderPosts(posts) {
+            const body = document.getElementById('posts-body');
+            if (posts.length === 0) {
+                body.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="px-6 py-20 text-center text-gray-400 italic">
+                            No posts found. Start sharing your vibe!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            body.innerHTML = posts.map(post => `
+                <tr class="hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-none">
+                    <td class="px-6 py-5 text-sm font-medium text-gray-500">${post.no}</td>
+                    <td class="px-6 py-5 text-sm font-bold text-black group cursor-pointer">
+                        <a href="/post_detail.html?no=${post.no}" class="group-hover:text-accent transition-colors">${post.title}</a>
+                    </td>
+                    <td class="px-6 py-5 text-sm text-gray-500">${new Date(post.createdAt).toLocaleString()}</td>
+                    <td class="px-6 py-5 text-sm text-gray-500">
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">visibility</span>
+                            <span>${post.views || 0}</span>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => fetchPosts());
+    </script>
 </body>
 
 </html>
