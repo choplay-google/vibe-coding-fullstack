@@ -97,6 +97,16 @@
                     </div>
 
                     <div>
+                        <label for="tags"
+                            class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 ml-1">Tags</label>
+                        <input type="text" id="tags" th:field="*{tags}" placeholder="태그를 쉼표(,)로 구분해 입력하세요"
+                            class="form-input"
+                            th:classappend="${#fields.hasErrors('tags')} ? 'border-red-500 focus:ring-red-200' : ''" />
+                        <p th:if="${#fields.hasErrors('tags')}" th:errors="*{tags}"
+                            class="text-red-500 text-xs mt-1 ml-1 font-bold italic"></p>
+                    </div>
+
+                    <div>
                         <label for="content"
                             class="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 ml-1">Content</label>
                         <textarea id="content" th:field="*{content}" required rows="8"

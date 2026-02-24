@@ -102,6 +102,13 @@
                 <header class="mb-12 border-b border-gray-50 pb-10">
                     <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight"
                         th:text="${post.title}">Post Title</h1>
+
+                    <div th:if="${post.tags != null and !post.tags.isEmpty()}" class="mb-6 flex flex-wrap gap-2">
+                        <span th:each="tag : ${#strings.arraySplit(post.tags, ',')}"
+                            class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-medium"
+                            th:text="${'#' + #strings.trim(tag)}">#Tag</span>
+                    </div>
+
                     <div class="flex flex-wrap gap-6 items-center text-sm text-gray-500">
                         <div class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-lg">calendar_today</span>

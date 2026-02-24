@@ -9,7 +9,8 @@ public record PostResponseDTO(
         String content,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        Integer views) {
+        Integer views,
+        String tags) {
     public static PostResponseDTO from(Post entity) {
         if (entity == null)
             return null;
@@ -19,6 +20,7 @@ public record PostResponseDTO(
                 entity.getContent(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt(),
-                entity.getViews());
+                entity.getViews(),
+                null); // Tags will be populated separately
     }
 }

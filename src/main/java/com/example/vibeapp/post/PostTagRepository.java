@@ -7,4 +7,5 @@ import java.util.List;
 public interface PostTagRepository {
     void save(PostTag postTag);
     void deleteByPostNo(Long postNo);
+    List<PostTag> findByPostNo(Long postNo);
 }

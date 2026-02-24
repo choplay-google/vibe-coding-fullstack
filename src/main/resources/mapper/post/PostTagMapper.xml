@@ -11,4 +11,10 @@
         DELETE FROM POST_TAGS WHERE POST_NO = #{postNo}
     </delete>
 
+    <select id="findByPostNo" parameterType="Long" resultType="com.example.vibeapp.post.PostTag">
+        SELECT ID, POST_NO as postNo, TAG_NAME as tagName 
+        FROM POST_TAGS 
+        WHERE POST_NO = #{postNo}
+    </select>
+
 </mapper>
